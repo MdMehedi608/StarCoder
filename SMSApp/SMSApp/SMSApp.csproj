@@ -50,13 +50,19 @@
     <Compile Include="MainFormUi.Designer.cs">
       <DependentUpon>MainFormUi.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\StockIN.cs" />
+    <Compile Include="Models\StockOut.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StockInUi.cs">
+    <Compile Include="Query\StockOutQueryFunction.cs" />
+    <Compile Include="StockOutUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StockInUi.Designer.cs">
-      <DependentUpon>StockInUi.cs</DependentUpon>
+    <Compile Include="StockOutUi.Designer.cs">
+      <DependentUpon>StockOutUi.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MainFormUi.resx">
       <DependentUpon>MainFormUi.cs</DependentUpon>
@@ -70,9 +76,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="StockInUi.resx">
-      <DependentUpon>StockInUi.cs</DependentUpon>
+    <EmbeddedResource Include="StockOutUi.resx">
+      <DependentUpon>StockOutUi.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\SMSApp.Models.Company.datasource" />
+    <None Include="Properties\DataSources\SMSApp.Models.Item.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -86,6 +94,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

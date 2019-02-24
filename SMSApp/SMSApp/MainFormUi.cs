@@ -20,7 +20,13 @@ namespace SMSApp
         private void StockINButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new StockInUi().ShowDialog();
+            new StockOutUi().ShowDialog();
+        }
+
+        private void StockOutButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new StockOutUi().ShowDialog();
         }
     }
 }

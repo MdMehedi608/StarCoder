@@ -82,6 +82,7 @@
             this.StockOutButton.TabIndex = 0;
             this.StockOutButton.Text = "Stock Out";
             this.StockOutButton.UseVisualStyleBackColor = true;
+            this.StockOutButton.Click += new System.EventHandler(this.StockOutButton_Click);
             // 
             // DateWiseSearchButton
             // 

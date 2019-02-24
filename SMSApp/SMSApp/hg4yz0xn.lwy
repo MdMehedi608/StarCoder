@@ -1,7 +1,10 @@
 ﻿using System;
+using SMSApp.Models;
+using SMSApp.Quarry;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,9 +15,18 @@ namespace SMSApp
 {
     public partial class StockInUi : Form
     {
+        StockOutQueryFunction stockOutFunction = new StockOutQueryFunction();
         public StockInUi()
         {
             InitializeComponent();
+            companyComboBox.DataSource = 
         }
+
+        private void companyComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }
