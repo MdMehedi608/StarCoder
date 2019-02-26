@@ -13,5 +13,6 @@ namespace SMSApp.Models
         public int CompanyID { get; set; }
         public string ItemName { get; set; }
         public decimal ReorderLevel { get; set; }
+        public decimal AvailableQuantity { get; set; }
     }
 }
