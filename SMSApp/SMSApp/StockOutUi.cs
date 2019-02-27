@@ -20,42 +20,80 @@ namespace SMSApp
 
         private List<StockOut> stockOut = new List<StockOut>();
         private List<Item> itemQuantity = new List<Item>();
+        
         public StockOutUi()
         {
             InitializeComponent();
-            companyComboBox.DataSource = stockOutFunction.GetCopanyCombo();
+            dataGridView.DataSource = null;
+            string query = @"SELECT ID, Name FROM Company";
+            companyComboBox.DataSource = stockOutFunction.GetData(query);
         }
 
         private void companyComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             Item item = new Item();
             item.CompanyID = Convert.ToInt32(companyComboBox.SelectedValue);
-            itemComboBox.DataSource = stockOutFunction.GetItemCombo(item);
+            string query = @"SELECT ID, ItemName FROM Item WHERE  CompanyID = '" + item.CompanyID + "'";
+            itemComboBox.DataSource = stockOutFunction.GetData(query);
         }
 
         private int i = 0;
         private int j = 0;
+
+        public bool Exsit()
+        {
+            bool isExsit = false;
+            for (int k = 0; k < stockOut.Count; k++)
+            {
+                if (stockOut[k].CompanyID == (int)companyComboBox.SelectedValue && stockOut[k].ItemID == (int)itemComboBox.SelectedValue)
+                {
+                    isExsit = true;
+                }
+            }
+            return isExsit;
+        }
         private void AddButton_Click(object sender, EventArgs e)
         {
-            StockOut stock = new StockOut();
-            Item item = new Item();
-            dataGridView.AutoGenerateColumns = false;
-            dataGridView.DataSource = null;
-            stock.CompanyID = Convert.ToInt32(companyComboBox.SelectedValue);
-            stock.ItemID = Convert.ToInt32(itemComboBox.SelectedValue);
-            stock.StockOutDate = DateTime.Now;
-            stock.StockOutQuantity = Convert.ToDecimal(stockOutQuantityTextBox.Text);
-            item.AvailableQuantity = (Convert.ToDecimal(abailableQuantityTextBox.Text));
-            stockOut.Add(stock);
-            dataGridView.DataSource = stockOut;
-            while (j<=i)
+            if (companyComboBox.SelectedValue != null && itemComboBox.SelectedValue != null && stockOutQuantityTextBox.Text != "")
             {
-                item.AvailableQuantity -= stock.StockOutQuantity;
-                item.ID = stock.ItemID;
-                itemQuantity.Add(item);
-                j++;
+                StockOut stock = new StockOut();
+                Item item = new Item();
+                dataGridView.AutoGenerateColumns = false;
+                dataGridView.DataSource = null;
+                stock.CompanyID = Convert.ToInt32(companyComboBox.SelectedValue);
+                stock.ItemID = Convert.ToInt32(itemComboBox.SelectedValue);
+                stock.StockOutDate = DateTime.Now;
+                stock.StockOutQuantity = Convert.ToDecimal(stockOutQuantityTextBox.Text);
+                item.AvailableQuantity = (Convert.ToDecimal(abailableQuantityTextBox.Text));
+                if (Convert.ToDecimal(abailableQuantityTextBox.Text) < stock.StockOutQuantity)
+                {
+                    MessageBox.Show("Please AbailableQuntity less then Stock Out Quantity!!");
+                    dataGridView.DataSource = stockOut;
+                    return;
+                }
+                if (Exsit())
+                {
+                    MessageBox.Show("Company And Item Allready Exsit!!");
+                    dataGridView.DataSource = stockOut;
+                    return;
+                }
+                stockOut.Add(stock);
+                dataGridView.DataSource = stockOut;
+                while (j <= i)
+                {
+                    item.AvailableQuantity -= stock.StockOutQuantity;
+                    item.ID = stock.ItemID;
+                    itemQuantity.Add(item);
+                    j++;
+                }
+                i++;
+                
             }
-            i++;
+            else
+            {
+                MessageBox.Show("Please All Field Required");
+            }
+            
             
         }
 
@@ -88,20 +126,113 @@ namespace SMSApp
                 if (isSave > 0)
                 {
                     MessageBox.Show("Save Success!!");
+                    SaveClearData();
                 }
                 else
                 {
                     MessageBox.Show("Not Save Success!!");
+                    SaveClearData();
                 }
             }
             else
             {
                 MessageBox.Show("Not Update!!");
+                SaveClearData();
             }
             
             
         }
 
+        // Damage Save
+        private void DamageButton_Click(object sender, EventArgs e)
+        {
+            int isSave = 0;
+            int isUpdate = 0;
+            stockOutFunction = new StockOutQueryFunction();
+            foreach (var list in stockOut)
+            {
+                list.Status = "D";
+                string query =
+                        @"INSERT INTO StockOut (CompanyID, ItemID, StockOutQuantity, StockOutDate, Status )VALUES('" +
+                        list.CompanyID + "', '" + list.ItemID + "', '" + list.StockOutQuantity + "', '" +
+                        list.StockOutDate + "', '" + list.Status + "')";
+                isSave = stockOutFunction.Add(query);
+
+            }
+            foreach (var item in itemQuantity)
+            {
+                string query = @"UPDATE Item Set AvailableQuantity = '" + item.AvailableQuantity + "' WHERE ID = '" +
+                           item.ID + "'";
+                if (isSave > 0)
+                {
+                    isUpdate = stockOutFunction.Upadate(query);
+                }
+            }
+            if (isUpdate > 0)
+            {
+                if (isSave > 0)
+                {
+                    MessageBox.Show("Save Success!!");
+                    SaveClearData();
+                }
+                else
+                {
+                    MessageBox.Show("Not Save Success!!");
+                    SaveClearData();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Not Update!!");
+                SaveClearData();
+            }
+        }
+
+        //Lost 
+
+        private void LostButton_Click(object sender, EventArgs e)
+        {
+            int isSave = 0;
+            int isUpdate = 0;
+            stockOutFunction = new StockOutQueryFunction();
+            foreach (var list in stockOut)
+            {
+                list.Status = "L";
+                string query =
+                        @"INSERT INTO StockOut (CompanyID, ItemID, StockOutQuantity, StockOutDate, Status )VALUES('" +
+                        list.CompanyID + "', '" + list.ItemID + "', '" + list.StockOutQuantity + "', '" +
+                        list.StockOutDate + "', '" + list.Status + "')";
+                isSave = stockOutFunction.Add(query);
+
+            }
+            foreach (var item in itemQuantity)
+            {
+                string query = @"UPDATE Item Set AvailableQuantity = '" + item.AvailableQuantity + "' WHERE ID = '" +
+                           item.ID + "'";
+                if (isSave > 0)
+                {
+                    isUpdate = stockOutFunction.Upadate(query);
+                }
+            }
+            if (isUpdate > 0)
+            {
+                if (isSave > 0)
+                {
+                    MessageBox.Show("Save Success!!");
+                    SaveClearData();
+                }
+                else
+                {
+                    MessageBox.Show("Not Save Success!!");
+                    SaveClearData();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Not Update!!");
+                SaveClearData();
+            }
+        }
         private void itemComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             StockOut stockOut = new StockOut();
@@ -121,6 +252,30 @@ namespace SMSApp
 
 
         }
+
+        public void Clear()
+        {
+            stockOutQuantityTextBox.Text = "";
+        }
+        public void SaveClearData()
+        {
+            companyComboBox.SelectedValue = 0;
+            itemComboBox.SelectedValue = 0;
+            itemComboBox.Text = "";
+            stockOutQuantityTextBox.Text = "";
+            reorderLevelTextBox.Text = "";
+            abailableQuantityTextBox.Text = "";
+            dataGridView.DataSource = null;
+        }
+
+        private void dataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            this.dataGridView.Rows[e.RowIndex].Cells["Sl"].Value = (e.RowIndex + 1).ToString();
+        }
+
+
+
+        
 
 
 

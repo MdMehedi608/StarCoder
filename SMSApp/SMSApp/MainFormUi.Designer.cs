@@ -72,7 +72,6 @@
             this.StockINButton.TabIndex = 0;
             this.StockINButton.Text = "Stock In";
             this.StockINButton.UseVisualStyleBackColor = true;
-            this.StockINButton.Click += new System.EventHandler(this.StockINButton_Click);
             // 
             // StockOutButton
             // 
@@ -106,7 +105,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(587, 50);
+            this.ClientSize = new System.Drawing.Size(587, 54);
             this.Controls.Add(this.StockInSearchButton);
             this.Controls.Add(this.StockOutButton);
             this.Controls.Add(this.DateWiseSearchButton);

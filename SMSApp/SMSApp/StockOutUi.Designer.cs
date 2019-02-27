@@ -52,6 +52,12 @@
             this.CompanyID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StockOutQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StockInSearchButton = new System.Windows.Forms.Button();
+            this.DateWiseSearchButton = new System.Windows.Forms.Button();
+            this.StockINButton = new System.Windows.Forms.Button();
+            this.ItemButton = new System.Windows.Forms.Button();
+            this.CompanyButton = new System.Windows.Forms.Button();
+            this.CategoryButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.companyBindingSource)).BeginInit();
@@ -72,7 +78,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.itemComboBox);
             this.groupBox1.Controls.Add(this.companyComboBox);
-            this.groupBox1.Location = new System.Drawing.Point(23, 12);
+            this.groupBox1.Location = new System.Drawing.Point(79, 47);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(346, 235);
             this.groupBox1.TabIndex = 0;
@@ -127,6 +133,7 @@
             // 
             this.abailableQuantityTextBox.Location = new System.Drawing.Point(120, 124);
             this.abailableQuantityTextBox.Name = "abailableQuantityTextBox";
+            this.abailableQuantityTextBox.ReadOnly = true;
             this.abailableQuantityTextBox.Size = new System.Drawing.Size(169, 20);
             this.abailableQuantityTextBox.TabIndex = 3;
             // 
@@ -134,6 +141,7 @@
             // 
             this.reorderLevelTextBox.Location = new System.Drawing.Point(120, 90);
             this.reorderLevelTextBox.Name = "reorderLevelTextBox";
+            this.reorderLevelTextBox.ReadOnly = true;
             this.reorderLevelTextBox.Size = new System.Drawing.Size(169, 20);
             this.reorderLevelTextBox.TabIndex = 3;
             // 
@@ -193,16 +201,17 @@
             // 
             // LostButton
             // 
-            this.LostButton.Location = new System.Drawing.Point(321, 422);
+            this.LostButton.Location = new System.Drawing.Point(363, 441);
             this.LostButton.Name = "LostButton";
             this.LostButton.Size = new System.Drawing.Size(75, 23);
             this.LostButton.TabIndex = 2;
             this.LostButton.Text = "Lost";
             this.LostButton.UseVisualStyleBackColor = true;
+            this.LostButton.Click += new System.EventHandler(this.LostButton_Click);
             // 
             // SellButton
             // 
-            this.SellButton.Location = new System.Drawing.Point(159, 422);
+            this.SellButton.Location = new System.Drawing.Point(201, 441);
             this.SellButton.Name = "SellButton";
             this.SellButton.Size = new System.Drawing.Size(75, 23);
             this.SellButton.TabIndex = 2;
@@ -212,12 +221,13 @@
             // 
             // DamageButton
             // 
-            this.DamageButton.Location = new System.Drawing.Point(240, 422);
+            this.DamageButton.Location = new System.Drawing.Point(282, 441);
             this.DamageButton.Name = "DamageButton";
             this.DamageButton.Size = new System.Drawing.Size(75, 23);
             this.DamageButton.TabIndex = 2;
             this.DamageButton.Text = "Damage";
             this.DamageButton.UseVisualStyleBackColor = true;
+            this.DamageButton.Click += new System.EventHandler(this.DamageButton_Click);
             // 
             // dataGridView
             // 
@@ -227,10 +237,11 @@
             this.CompanyID,
             this.ItemID,
             this.StockOutQuantity});
-            this.dataGridView.Location = new System.Drawing.Point(23, 284);
+            this.dataGridView.Location = new System.Drawing.Point(65, 301);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.Size = new System.Drawing.Size(373, 123);
             this.dataGridView.TabIndex = 3;
+            this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
             // 
             // Sl
             // 
@@ -256,11 +267,71 @@
             this.StockOutQuantity.HeaderText = "Quantity";
             this.StockOutQuantity.Name = "StockOutQuantity";
             // 
+            // StockInSearchButton
+            // 
+            this.StockInSearchButton.Location = new System.Drawing.Point(346, 12);
+            this.StockInSearchButton.Name = "StockInSearchButton";
+            this.StockInSearchButton.Size = new System.Drawing.Size(75, 23);
+            this.StockInSearchButton.TabIndex = 4;
+            this.StockInSearchButton.Text = "Search";
+            this.StockInSearchButton.UseVisualStyleBackColor = true;
+            // 
+            // DateWiseSearchButton
+            // 
+            this.DateWiseSearchButton.Location = new System.Drawing.Point(427, 13);
+            this.DateWiseSearchButton.Name = "DateWiseSearchButton";
+            this.DateWiseSearchButton.Size = new System.Drawing.Size(75, 23);
+            this.DateWiseSearchButton.TabIndex = 6;
+            this.DateWiseSearchButton.Text = "Search2";
+            this.DateWiseSearchButton.UseVisualStyleBackColor = true;
+            // 
+            // StockINButton
+            // 
+            this.StockINButton.Location = new System.Drawing.Point(266, 12);
+            this.StockINButton.Name = "StockINButton";
+            this.StockINButton.Size = new System.Drawing.Size(75, 23);
+            this.StockINButton.TabIndex = 7;
+            this.StockINButton.Text = "Stock In";
+            this.StockINButton.UseVisualStyleBackColor = true;
+            // 
+            // ItemButton
+            // 
+            this.ItemButton.Location = new System.Drawing.Point(185, 12);
+            this.ItemButton.Name = "ItemButton";
+            this.ItemButton.Size = new System.Drawing.Size(75, 23);
+            this.ItemButton.TabIndex = 8;
+            this.ItemButton.Text = "Item";
+            this.ItemButton.UseVisualStyleBackColor = true;
+            // 
+            // CompanyButton
+            // 
+            this.CompanyButton.Location = new System.Drawing.Point(104, 12);
+            this.CompanyButton.Name = "CompanyButton";
+            this.CompanyButton.Size = new System.Drawing.Size(75, 23);
+            this.CompanyButton.TabIndex = 9;
+            this.CompanyButton.Text = "Company";
+            this.CompanyButton.UseVisualStyleBackColor = true;
+            // 
+            // CategoryButton
+            // 
+            this.CategoryButton.Location = new System.Drawing.Point(23, 12);
+            this.CategoryButton.Name = "CategoryButton";
+            this.CategoryButton.Size = new System.Drawing.Size(75, 23);
+            this.CategoryButton.TabIndex = 10;
+            this.CategoryButton.Text = "Category";
+            this.CategoryButton.UseVisualStyleBackColor = true;
+            // 
             // StockOutUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(415, 457);
+            this.ClientSize = new System.Drawing.Size(518, 475);
+            this.Controls.Add(this.StockInSearchButton);
+            this.Controls.Add(this.DateWiseSearchButton);
+            this.Controls.Add(this.StockINButton);
+            this.Controls.Add(this.ItemButton);
+            this.Controls.Add(this.CompanyButton);
+            this.Controls.Add(this.CategoryButton);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.DamageButton);
             this.Controls.Add(this.SellButton);
@@ -303,5 +374,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CompanyID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemID;
         private System.Windows.Forms.DataGridViewTextBoxColumn StockOutQuantity;
+        private System.Windows.Forms.Button StockInSearchButton;
+        private System.Windows.Forms.Button DateWiseSearchButton;
+        private System.Windows.Forms.Button StockINButton;
+        private System.Windows.Forms.Button ItemButton;
+        private System.Windows.Forms.Button CompanyButton;
+        private System.Windows.Forms.Button CategoryButton;
     }
 }

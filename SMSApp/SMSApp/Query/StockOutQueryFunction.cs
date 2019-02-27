@@ -56,60 +56,29 @@ namespace SMSApp.Quarry
             }
             return isExcuted;
         }
-        public bool Delete(StockOut stockOut)
+        public int Delete(string query)
         {
-            bool isAdd = false;
+            int isExcuted = 0;
             try
             {
                 conn = new SqlConnection(dbConn);
-                string query =
-                    @"DELETE StockOut WHERE ID = '" + stockOut.ID + "' )";
                 cmd = new SqlCommand(query, conn);
                 conn.Open();
-                int isExcuted = cmd.ExecuteNonQuery();
-                if (isExcuted > 0)
-                {
-                    isAdd = true;
-                }
-                else
-                {
-                    isAdd = false;
-                }
+                isExcuted = cmd.ExecuteNonQuery();
                 conn.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            return isAdd;
+            return isExcuted;
         }
-        public DataTable GetCopanyCombo()
+        public DataTable GetData(string query)
         {
             dataTable = new DataTable();
             try
             {
                 conn = new SqlConnection(dbConn);
-                string query = @"SELECT ID, Name FROM Company";
-                cmd = new SqlCommand(query, conn);
-                conn.Open();
-                dataAdapter = new SqlDataAdapter(cmd);
-                dataAdapter.Fill(dataTable);
-                conn.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            return dataTable;
-        }
-
-        public DataTable GetItemCombo(Item item)
-        {
-            dataTable = new DataTable();
-            try
-            {
-                conn = new SqlConnection(dbConn);
-                string query = @"SELECT ID, ItemName FROM Item WHERE  CompanyID = '" + item.CompanyID + "'";
                 cmd = new SqlCommand(query, conn);
                 conn.Open();
                 dataAdapter = new SqlDataAdapter(cmd);
